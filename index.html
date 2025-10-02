@@ -1,21 +1,474 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-    <title>Fun-World Test</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fun-World - Minecraft Сервер</title>
     <style>
-        body { 
-            background: #1e3c72; 
-            color: white; 
-            text-align: center; 
-            padding: 100px; 
-            font-family: Arial;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        h1 { color: #4CAF50; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #4CAF50;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect fill="%231a1a2e" width="1200" height="800"/><rect fill="%234CAF50" x="100" y="100" width="50" height="50"/><rect fill="%234CAF50" x="200" y="250" width="50" height="50"/><rect fill="%234CAF50" x="350" y="150" width="50" height="50"/></svg>');
+            background-size: cover;
+            position: relative;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #4CAF50;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            margin: 5px;
+        }
+
+        .btn:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        /* Sections */
+        section {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2.5rem;
+        }
+
+        /* Features Section */
+        .features {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Server Info */
+        .server-info {
+            background: rgba(0, 0, 0, 0.9);
+            text-align: center;
+        }
+
+        .server-stats {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 10px;
+            min-width: 200px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #4CAF50;
+            display: block;
+        }
+
+        /* Download Section */
+        .download {
+            background: rgba(0, 0, 0, 0.8);
+            text-align: center;
+        }
+
+        .download-steps {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 3rem 0;
+        }
+
+        .step {
+            flex: 1;
+            min-width: 250px;
+            margin: 1rem;
+            padding: 2rem;
+        }
+
+        .step-number {
+            background: #4CAF50;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .social-links {
+            margin: 2rem 0;
+        }
+
+        .social-links a {
+            color: white;
+            margin: 0 1rem;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: #4CAF50;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .server-stats {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
     </style>
 </head>
 <body>
-    <h1>✅ Fun-World РАБОТАЕТ!</h1>
-    <p>GitHub Pages успешно настроен</p>
-    <p>Сайт: https://funnyweek.github.io</p>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">Fun-World</div>
+                <ul class="nav-links">
+                    <li><a href="#home">Главная</a></li>
+                    <li><a href="#features">Особенности</a></li>
+                    <li><a href="#server">Сервер</a></li>
+                    <li><a href="#download">Скачать</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Добро пожаловать в Fun-World!</h1>
+                <p>Лучший Minecraft сервер с уникальными модами, ивентами и дружным комьюнити</p>
+                <a href="#download" class="btn">Скачать Лаунчер</a>
+                <a href="#server" class="btn btn-secondary">Информация о сервере</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">Наши Преимущества</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Высокая производительность</h3>
+                    <p>Стабильный сервер 24/7 с TPS 20 и защитой от лагов</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🛡</div>
+                    <h3>Античит система</h3>
+                    <p>Честная игра для всех и защита от нечестных игроков</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎮</div>
+                    <h3>Уникальные моды</h3>
+                    <p>Эксклюзивные плагины и моды, которых нет на других серверах</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Server Info Section -->
+    <section class="server-info" id="server">
+        <div class="container">
+            <h2 class="section-title">Статистика сервера</h2>
+            <div class="server-stats">
+                <div class="stat-card">
+                    <span class="stat-number" id="onlineCount">0</span>
+                    <span>Игроков онлайн</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">24/7</span>
+                    <span>Время работы</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="totalPlayers">1.2K</span>
+                    <span>Всего игроков</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">1.20.1</span>
+                    <span>Версия</span>
+                </div>
+            </div>
+            <p style="margin-top: 2rem; font-size: 1.2rem;">
+                IP адрес: <strong>fun-world.cloudpub.ru</strong>
+            </p>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <section class="download" id="download">
+        <div class="container">
+            <h2 class="section-title">Скачать Лаунчер</h2>
+            <p>Всего 3 простых шага до начала игры</p>
+            
+            <div class="download-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Скачайте лаунчер</h3>
+                    <p>Нажмите кнопку ниже для загрузки</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Запустите</h3>
+                    <p>Откройте файл и дождитесь установки</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Играйте!</h3>
+                    <p>Введите никнейм и нажмите "Играть"</p>
+                </div>
+            </div>
+            
+            <a href="launcher/FunWorldLauncher.jar" class="btn" download>
+                Скачать Лаунчер v1.0
+            </a>
+            <p style="margin-top: 1rem; opacity: 0.8;">
+                Требуется Java 8 или выше • Windows 7+/macOS 10.12+/Linux
+            </p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="logo" style="font-size: 2rem;">Fun-World</div>
+            <p>Лучший Minecraft сервер 2024</p>
+            
+            <div class="social-links">
+                <a href="#">Discord</a>
+                <a href="#">VK</a>
+                <a href="#">Telegram</a>
+                <a href="#">YouTube</a>
+            </div>
+            
+            <p style="margin-top: 2rem; opacity: 0.7;">
+                &copy; 2024 Fun-World Minecraft Server. Все права защищены.<br>
+                fun-world.cloudpub.ru
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Анимация счетчика онлайн игроков
+        function animateCounter(element, target, duration) {
+            let start = 0;
+            const increment = target / (duration / 16);
+            const timer = setInterval(() => {
+                start += increment;
+                if (start >= target) {
+                    element.textContent = Math.floor(target);
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(start);
+                }
+            }, 16);
+        }
+
+        // Плавная прокрутка
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Анимация при загрузке
+        window.addEventListener('load', function() {
+            // Анимация счетчиков
+            const onlineCount = document.getElementById('onlineCount');
+            animateCounter(onlineCount, 47, 2000);
+
+            // Анимация карточек
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Наблюдаем за карточками
+            document.querySelectorAll('.feature-card, .stat-card, .step').forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(card);
+            });
+        });
+
+        // Случайное изменение онлайна (для демо)
+        setInterval(() => {
+            const onlineElement = document.getElementById('onlineCount');
+            const current = parseInt(onlineElement.textContent);
+            const change = Math.random() > 0.5 ? 1 : -1;
+            const newValue = Math.max(40, Math.min(60, current + change));
+            onlineElement.textContent = newValue;
+        }, 10000);
+    </script>
 </body>
 </html>
